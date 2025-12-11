@@ -536,6 +536,7 @@
         <div class="nav-dot" data-label="Technical" onclick="scrollToPanel(4)"></div>
         <div class="nav-dot" data-label="Impact" onclick="scrollToPanel(5)"></div>
         <div class="nav-dot" data-label="References" onclick="scrollToPanel(6)"></div>
+        <div class="nav-dot" data-label="Resources" onclick="scrollToPanel(7)"></div>
     </div>
 
     <!-- Panel 1: Hero / Overview -->
@@ -675,13 +676,6 @@
                     </div>
                 </div>
 
-                <div class="video-container">
-                    <video controls loop>
-                        <source src="Heavy2Light/movie12.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
                 <h3>4. Co-evolutionary Relationships</h3>
 
                 <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002).</p>
@@ -722,7 +716,7 @@
     <section class="panel" id="panel-5">
         <div class="panel-content">
             <h2>What This Means</h2>
-            
+
             <p>Heavy2Light demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints without explicit supervision. The model learned maturation-dependent preferences, germline co-evolution patterns, structural constraints, and V gene restrictions—all from sequence data alone.</p>
 
             <div class="highlight-box">
@@ -734,22 +728,6 @@
                     <li><strong>Immune dynamics studies</strong>: Tracking pairing preferences during vaccination or infection</li>
                 </ul>
             </div>
-
-            <h3>Resources</h3>
-            <div class="links">
-                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
-                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
-                <a href="#" class="link-button">Read the Paper</a>
-            </div>
-
-            <p style="margin-top: 2rem; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
-                This work was conducted at the Institute of Biochemistry and Molecular Medicine (IBMM), University of Bern, 
-                and supported by the Helmut Horten Young Investigator Program 2022.
-            </p>
-
-            <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
-                <em>Lea Brönnimann, Thomas Lemmin, and Chiara Rodella</em>
-            </p>
         </div>
     </section>
 
@@ -760,45 +738,58 @@
             <ol class="reference-list">
                 <li id="ref1">
                     <span class="reference-number">[1]</span>
-                    Tonegawa, S. (1983). Somatic generation of antibody diversity. <em>Nature</em>, 302, 575-581. 
+                    Tonegawa, S. (1983). Somatic generation of antibody diversity. <em>Nature</em>, 302, 575-581.
                     <a href="https://doi.org/10.1038/302575a0" target="_blank">https://doi.org/10.1038/302575a0</a>
                 </li>
                 <li id="ref2">
                     <span class="reference-number">[2]</span>
-                    Marks, C., & Deane, C.M. (2020). How repertoire data are changing antibody science. <em>Journal of Biological Chemistry</em>, 295, 9823-9837. 
+                    Marks, C., & Deane, C.M. (2020). How repertoire data are changing antibody science. <em>Journal of Biological Chemistry</em>, 295, 9823-9837.
                     <a href="https://doi.org/10.1074/jbc.REV120.010181" target="_blank">https://doi.org/10.1074/jbc.REV120.010181</a>
                 </li>
                 <li id="ref3">
                     <span class="reference-number">[3]</span>
-                    DeKosky, B.J., Kojima, T., Rodin, A., et al. (2015). In-depth determination and analysis of the human paired heavy- and light-chain antibody repertoire. <em>Nature Medicine</em>, 21, 86-91. 
+                    DeKosky, B.J., Kojima, T., Rodin, A., et al. (2015). In-depth determination and analysis of the human paired heavy- and light-chain antibody repertoire. <em>Nature Medicine</em>, 21, 86-91.
                     <a href="https://doi.org/10.1038/nm.3743" target="_blank">https://doi.org/10.1038/nm.3743</a>
                 </li>
                 <li id="ref4">
                     <span class="reference-number">[4]</span>
-                    Novobrantseva, T. (2005). Stochastic pairing of Ig heavy and light chains frequently generates B cell antigen receptors that are subject to editing in vivo. <em>International Immunology</em>, 17, 343-350. 
+                    Novobrantseva, T. (2005). Stochastic pairing of Ig heavy and light chains frequently generates B cell antigen receptors that are subject to editing in vivo. <em>International Immunology</em>, 17, 343-350.
                     <a href="https://doi.org/10.1093/intimm/dxh214" target="_blank">https://doi.org/10.1093/intimm/dxh214</a>
                 </li>
                 <li id="ref5">
                     <span class="reference-number">[5]</span>
-                    Jaffe, D.B., Shahi, P., Adams, B.A., et al. (2022). Functional antibodies exhibit light chain coherence. <em>Nature</em>, 611, 352-357. 
+                    Jaffe, D.B., Shahi, P., Adams, B.A., et al. (2022). Functional antibodies exhibit light chain coherence. <em>Nature</em>, 611, 352-357.
                     <a href="https://doi.org/10.1038/s41586-022-05371-z" target="_blank">https://doi.org/10.1038/s41586-022-05371-z</a>
                 </li>
                 <li id="ref6">
                     <span class="reference-number">[6]</span>
-                    Van Der Kant, R., Bauer, J., Karow-Zwick, A.R., et al. (2019). Adaption of human antibody λ and κ light chain architectures to CDR repertoires. <em>Protein Engineering, Design and Selection</em>, 32, 109-127. 
+                    Van Der Kant, R., Bauer, J., Karow-Zwick, A.R., et al. (2019). Adaption of human antibody λ and κ light chain architectures to CDR repertoires. <em>Protein Engineering, Design and Selection</em>, 32, 109-127.
                     <a href="https://doi.org/10.1093/protein/gzz012" target="_blank">https://doi.org/10.1093/protein/gzz012</a>
                 </li>
                 <li id="ref7">
                     <span class="reference-number">[7]</span>
-                    Schwartz, G.W., & Hershberg, U. (2013). Conserved variation: Identifying patterns of stability and variability in BCR and TCR V genes with different diversity and richness metrics. <em>Physical Biology</em>, 10, 035005. 
+                    Schwartz, G.W., & Hershberg, U. (2013). Conserved variation: Identifying patterns of stability and variability in BCR and TCR V genes with different diversity and richness metrics. <em>Physical Biology</em>, 10, 035005.
                     <a href="https://doi.org/10.1088/1478-3975/10/3/035005" target="_blank">https://doi.org/10.1088/1478-3975/10/3/035005</a>
                 </li>
                 <li id="ref8">
                     <span class="reference-number">[8]</span>
-                    Chai Discovery, Boitreaud, J., Dent, J., et al. (2024). Chai-1: Decoding the molecular interactions of life. <em>bioRxiv</em>. 
+                    Chai Discovery, Boitreaud, J., Dent, J., et al. (2024). Chai-1: Decoding the molecular interactions of life. <em>bioRxiv</em>.
                     <a href="https://doi.org/10.1101/2024.10.10.615955" target="_blank">https://doi.org/10.1101/2024.10.10.615955</a>
                 </li>
             </ol>
+        </div>
+    </section>
+
+    <!-- Panel 8: Resources -->
+    <section class="panel" id="panel-7">
+        <div class="panel-content">
+            <h2>Resources</h2>
+
+            <div class="links">
+                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
+                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
+                <a href="#" class="link-button">Read the Paper</a>
+            </div>
         </div>
     </section>
 
