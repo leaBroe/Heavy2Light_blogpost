@@ -19,8 +19,13 @@
             --text-secondary: #5a5a5a;
             --accent-primary: #00A290;
             --accent-secondary: #4DD0C0;
-            --code-bg: #2d3748;
             --border-color: #c5ddd9;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
         }
 
         body {
@@ -28,37 +33,24 @@
             line-height: 1.8;
             color: var(--text-primary);
             background: var(--bg-primary);
-            position: relative;
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 15% 20%, rgba(0, 162, 144, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 85% 80%, rgba(77, 208, 192, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 50% 50%, rgba(0, 162, 144, 0.03) 0%, transparent 50%);
-            animation: floatBackground 20s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes floatBackground {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(2%, -2%) rotate(1deg); }
-            66% { transform: translate(-2%, 2%) rotate(-1deg); }
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        .panel {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 4rem 2rem;
-            animation: fadeIn 0.8s ease-out;
             position: relative;
+            background: var(--bg-primary);
+        }
+
+        .panel-content {
+            max-width: 900px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
@@ -66,23 +58,69 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 5rem;
-            padding-bottom: 3rem;
-            border-bottom: 3px solid var(--border-color);
+        /* Navigation dots */
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        header::after {
-            content: '';
+        .nav-dot:hover {
+            background: var(--accent-secondary);
+            transform: scale(1.3);
+        }
+
+        .nav-dot.active {
+            background: var(--accent-primary);
+            transform: scale(1.5);
+        }
+
+        .nav-dot::after {
+            content: attr(data-label);
             position: absolute;
-            bottom: -3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-dot:hover::after {
+            opacity: 1;
+        }
+
+        /* Panel backgrounds */
+        .panel:nth-child(even) {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        /* Hero Panel */
+        .hero-panel {
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
 
         h1 {
@@ -93,20 +131,12 @@
             margin-bottom: 1.5rem;
             color: var(--text-primary);
             letter-spacing: -0.03em;
-            position: relative;
-            display: inline-block;
             animation: slideInTitle 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
         }
 
         @keyframes slideInTitle {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .subtitle {
@@ -115,85 +145,60 @@
             font-style: italic;
             margin-bottom: 2rem;
             animation: fadeIn 0.8s ease-out 0.4s backwards;
-            font-weight: 400;
-        }
-
-        .meta {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
         }
 
         .header-image-container {
-            margin-top: 2.5rem;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 600px;
+            margin: 2.5rem auto;
+            max-width: 500px;
             border-radius: 12px;
             overflow: hidden;
-            position: relative;
             animation: scaleIn 0.6s ease-out 0.6s backwards;
         }
 
         @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .header-image-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .header-image-container:hover::before {
-            opacity: 0.3;
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .header-image {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.3s ease;
         }
 
-        .header-image-container:hover .header-image {
-            transform: scale(1.02);
-        }
-
-        .image-caption {
-            font-size: 0.9rem;
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            font-style: italic;
-            text-align: center;
-            margin-top: 0.75rem;
-            line-height: 1.5;
+            animation: bounce 2s infinite;
         }
 
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            display: block;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Typography */
         h2 {
             font-family: 'Crimson Pro', serif;
-            font-size: 2.3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin: 4rem 0 2rem;
+            margin-bottom: 2rem;
             color: var(--accent-primary);
             position: relative;
             padding-left: 2rem;
-            letter-spacing: -0.02em;
         }
 
         h2::before {
@@ -206,31 +211,14 @@
             height: 1rem;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translateY(-50%) scale(1); opacity: 1; }
-            50% { transform: translateY(-50%) scale(1.2); opacity: 0.8; }
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            left: 2rem;
-            bottom: -0.5rem;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-secondary), transparent);
         }
 
         h3 {
             font-family: 'Crimson Pro', serif;
             font-size: 1.5rem;
             font-weight: 600;
-            margin: 2.5rem 0 1.2rem;
+            margin: 2rem 0 1rem;
             color: var(--text-primary);
-            position: relative;
             padding-left: 1rem;
             border-left: 3px solid var(--accent-secondary);
         }
@@ -243,81 +231,26 @@
         strong {
             font-weight: 700;
             color: var(--accent-primary);
-            position: relative;
         }
 
-        .key-finding {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, #ffffff 100%);
-            border-left: 5px solid var(--accent-primary);
-            padding: 2rem 2.5rem;
-            margin: 2.5rem 0;
-            border-radius: 0 12px 12px 0;
-            box-shadow: 0 4px 20px rgba(0, 162, 144, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .key-finding::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
-            opacity: 0.1;
-            transform: translate(30%, -30%);
-        }
-
-        .key-finding:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 30px rgba(0, 162, 144, 0.15);
-        }
-
-        .key-finding p {
-            margin-bottom: 0.75rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .key-finding p:last-child {
-            margin-bottom: 0;
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #ffffff 0%, var(--bg-secondary) 100%);
-            padding: 2.5rem;
-            margin: 3rem 0;
+        .question-text {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 162, 144, 0.05), rgba(77, 208, 192, 0.05));
             border-radius: 12px;
             border: 2px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0, 162, 144, 0.08);
-            position: relative;
-            overflow: hidden;
         }
 
-        .highlight-box::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
-            background-size: 200% 100%;
-            animation: shimmer 3s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
+        /* Stats Grid */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.5rem;
-            margin: 3rem 0;
+            margin: 2rem 0;
         }
 
         .stat-card {
@@ -326,25 +259,7 @@
             border-radius: 12px;
             border: 2px solid var(--border-color);
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .stat-card:hover::before {
-            opacity: 0.1;
+            transition: all 0.3s ease;
         }
 
         .stat-card:hover {
@@ -363,7 +278,6 @@
             background-clip: text;
             display: block;
             margin-bottom: 0.5rem;
-            position: relative;
         }
 
         .stat-label {
@@ -374,174 +288,71 @@
             font-weight: 600;
         }
 
-        code {
-            font-family: 'IBM Plex Mono', monospace;
-            background: var(--bg-secondary);
-            padding: 0.3em 0.5em;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: var(--accent-primary);
-            border: 1px solid var(--border-color);
+        /* Key Finding Box */
+        .key-finding {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #ffffff 100%);
+            border-left: 5px solid var(--accent-primary);
+            padding: 2rem 2.5rem;
+            margin: 2rem 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 20px rgba(0, 162, 144, 0.1);
         }
 
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #ffffff 0%, var(--bg-secondary) 100%);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 162, 144, 0.08);
+        }
+
+        /* Method Section */
+        .method-section {
+            background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent-secondary);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Lists */
         ul {
             margin: 1.5rem 0 1.5rem 2rem;
         }
 
         li {
             margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             position: relative;
             padding-left: 0.5rem;
         }
 
-        li::before {
-            content: '';
-            position: absolute;
-            left: -1.2rem;
-            top: 0.7em;
-            width: 6px;
-            height: 6px;
-            background: var(--accent-secondary);
-            border-radius: 50%;
+        li::marker {
+            color: var(--accent-secondary);
         }
 
-        .method-section {
-            background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
-            padding: 2rem;
-            margin: 2.5rem 0;
-            border-left: 4px solid var(--accent-secondary);
-            border-radius: 0 8px 8px 0;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .method-section:hover {
-            transform: translateX(10px);
-        }
-
-        .method-section::before {
-            content: '';
-            position: absolute;
-            left: -4px;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-        }
-
-        .footer {
-            margin-top: 5rem;
-            padding-top: 3rem;
-            border-top: 3px solid var(--border-color);
-            text-align: center;
-            position: relative;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-        }
-
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 2.5rem 0;
-        }
-
-        .link-button {
-            font-family: 'IBM Plex Mono', monospace;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .link-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .link-button:hover::before {
-            left: 100%;
-        }
-
-        .link-button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 162, 144, 0.4);
-        }
-
-        .image-placeholder {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, #d5ebe8 100%);
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            padding: 3rem;
-            text-align: center;
-            color: var(--text-secondary);
-            margin: 2rem 0;
-            font-style: italic;
-        }
-
+        /* References */
         .reference {
             color: var(--accent-primary);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.85em;
             vertical-align: super;
-            transition: all 0.2s ease;
-            position: relative;
+            transition: color 0.2s ease;
         }
 
         .reference:hover {
             color: var(--accent-secondary);
         }
 
-        .references-section {
-            margin-top: 5rem;
-            padding-top: 3rem;
-            border-top: 3px solid var(--border-color);
-            position: relative;
-        }
-
-        .references-section::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: 0;
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-primary), transparent);
-        }
-
-        .references-section h2 {
-            margin-top: 0;
-        }
-
         .reference-list {
             list-style: none;
             margin: 2rem 0;
             padding: 0;
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
         .reference-list li {
@@ -550,14 +361,9 @@
             position: relative;
             font-size: 0.95rem;
             line-height: 1.6;
-            transition: transform 0.2s ease;
         }
 
-        .reference-list li:hover {
-            transform: translateX(5px);
-        }
-
-        .reference-list li::before {
+        .reference-list li::marker {
             display: none;
         }
 
@@ -582,22 +388,59 @@
             color: var(--accent-secondary);
         }
 
-        /* Scroll animations */
-        section {
-            animation: fadeInUp 0.6s ease-out;
+        /* Footer Links */
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .link-button {
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
+        .link-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 162, 144, 0.4);
+        }
+
+        /* Scrollable content areas */
+        .scrollable-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: var(--accent-secondary);
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Mobile adjustments */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.2rem;
@@ -607,53 +450,85 @@
                 font-size: 1.8rem;
             }
 
-            .container {
+            .panel {
                 padding: 2rem 1.5rem;
+            }
+
+            .nav-dots {
+                right: 1rem;
             }
 
             .stat-grid {
                 grid-template-columns: 1fr;
             }
 
-            .stat-card {
+            .question-text {
+                font-size: 1.2rem;
                 padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" data-label="Overview" onclick="scrollToPanel(0)"></div>
+        <div class="nav-dot" data-label="Challenge" onclick="scrollToPanel(1)"></div>
+        <div class="nav-dot" data-label="Approach" onclick="scrollToPanel(2)"></div>
+        <div class="nav-dot" data-label="Findings" onclick="scrollToPanel(3)"></div>
+        <div class="nav-dot" data-label="Technical" onclick="scrollToPanel(4)"></div>
+        <div class="nav-dot" data-label="Impact" onclick="scrollToPanel(5)"></div>
+        <div class="nav-dot" data-label="References" onclick="scrollToPanel(6)"></div>
+    </div>
+
+    <!-- Panel 1: Hero / Overview -->
+    <section class="panel hero-panel" id="panel-0">
+        <div class="panel-content">
             <h1>Heavy2Light: Teaching AI to Predict Antibody Pairing</h1>
             <p class="subtitle">Deep learning reveals the hidden grammar of immune receptor assembly</p>
-            <p class="meta">Lea Brönnimann • Institute of Biochemistry and Molecular Medicine, University of Bern</p>
             
             <div class="header-image-container">
-                <img src="Heavy2Light/logo_heavy2light.png" class="header-image">
+                <img src="Heavy2Light/logo_heavy2light.png" class="header-image" alt="Heavy2Light Logo">
             </div>
-        </header>
 
-        <section>
-            <p style="font-size: 1.3rem; color: var(--accent-primary); font-weight: 600; text-align: center; margin-bottom: 2rem;">
+            <div class="question-text">
                 What if we could teach AI to understand the molecular handshake between antibody chains?
-            </p>
+            </div>
 
             <p>Your immune system generates billions of different antibodies, each consisting of two heavy chains and two light chains that must pair correctly to function. But here's the problem: despite decades of research, we still don't fully understand which heavy chains prefer which light chains.</p>
 
             <p>We developed <strong>Heavy2Light</strong>—a deep learning framework that learned to predict light chain sequences from heavy chains alone. More importantly, it revealed fundamental principles about how these pairing preferences evolve during immune maturation.</p>
-        </section>
 
-        <h2>The Challenge: Lost Pairing Information</h2>
+            <div class="scroll-hint">Scroll to explore</div>
+        </div>
+    </section>
 
-        <section>
+    <!-- Panel 2: The Challenge -->
+    <section class="panel" id="panel-1">
+        <div class="panel-content">
+            <h2>The Challenge: Lost Pairing Information</h2>
+            
             <p>Modern sequencing can capture millions of antibody sequences from a single blood sample<a href="#ref2" class="reference">[2]</a>, but there's a catch: these methods lose track of which heavy chains naturally pair with which light chains<a href="#ref3" class="reference">[3]</a>. It's like having millions of left and right shoes with no record of which pairs go together.</p>
 
             <p>This matters because random pairing often produces non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>—understanding natural pairing preferences is critical for therapeutic antibody design, bispecific engineering, and decoding immune responses.</p>
-        </section>
 
-        <h2>Our Approach: Two-Stage Deep Learning</h2>
+            <div class="highlight-box">
+                <h3>Why This Matters</h3>
+                <ul>
+                    <li><strong>Therapeutic antibody design</strong>: Ensuring stability and reducing immunogenicity</li>
+                    <li><strong>Bispecific antibody engineering</strong>: Achieving correct heavy-light assembly</li>
+                    <li><strong>Repertoire analysis</strong>: Decoding immune response architecture</li>
+                    <li><strong>Basic immunology</strong>: Understanding B cell selection and maturation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        <section>
+    <!-- Panel 3: Our Approach -->
+    <section class="panel" id="panel-2">
+        <div class="panel-content">
+            <h2>Our Approach: Two-Stage Deep Learning</h2>
+            
             <p>We faced a data challenge: 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. Our solution? A two-stage approach:</p>
 
             <div class="method-section">
@@ -665,116 +540,149 @@
                 <h3>Stage 2: Fine-tuning</h3>
                 <p>We combined these models into <strong>Heavy2Light</strong>, an encoder-decoder architecture that learned to translate heavy chains into plausible light chains using ~588,000 paired sequences.</p>
             </div>
-        </section>
-
-        <div class="stat-grid">
-            <div class="stat-card">
-                <span class="stat-number">99M+</span>
-                <span class="stat-label">Heavy Chains</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">22M+</span>
-                <span class="stat-label">Light Chains</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">588K</span>
-                <span class="stat-label">Paired Sequences</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">86M</span>
-                <span class="stat-label">Parameters</span>
-            </div>
-        </div>
-
-        <h2>Key Findings</h2>
-
-        <section>
-            <h3>1. Maturation-Dependent Pairing Constraints</h3>
-
-            <div class="key-finding">
-                <p><strong>Memory B cells exhibit restricted V gene pairing preferences.</strong></p>
-                <p>When we analyzed the light chains generated from memory B cell heavy chains, we found that 16.1% of memory-derived heavy chains consistently generated light chains using the same V gene family (≥80% consensus). In contrast, only 0.8% of naive B cell heavy chains showed this restriction.</p>
-                <p>Permutation testing confirmed this pattern significantly exceeds chance expectations (p < 0.001), demonstrating that the model learned genuine maturation-dependent pairing rules rather than simply memorizing training data correlations.</p>
-            </div>
-
-            <p>This finding aligns with recent experimental observations that memory B cells show pronounced heavy-light interdependence, where specific heavy chain V genes preferentially select particular light chain V genes<a href="#ref5" class="reference">[5]</a>. Our computational model captured this biological phenomenon without explicit supervision.</p>
-
-            <h3>2. The Trimodal Kappa Distribution</h3>
-
-            <p>When we analyzed sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
-
-            <div class="highlight-box">
-                <p><strong>Our hypothesis:</strong> These three modes represent different pairing strategies—from promiscuous public light chains (~30-40% similarity) that pair with many heavy chains, to semi-specialized pairings (~50-60%), to highly specific co-evolved pairs (~70-80%) selected during affinity maturation.</p>
-            </div>
-
-            <p>Lambda (λ) chains showed a different pattern, likely reflecting their greater structural flexibility<a href="#ref6" class="reference">[6,7]</a>.</p>
-
-            <h3>3. Structural Conservation Despite Sequence Divergence</h3>
-
-            <p>Perhaps most intriguingly, generated light chains with as little as 31% sequence identity to their true counterparts still folded into correct 3D structures when predicted using Chai-1<a href="#ref8" class="reference">[8]</a>. The model achieved high structural confidence metrics:</p>
 
             <div class="stat-grid">
                 <div class="stat-card">
-                    <span class="stat-number">93.9%</span>
-                    <span class="stat-label">pTM Score</span>
+                    <span class="stat-number">99M+</span>
+                    <span class="stat-label">Heavy Chains</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">91.7</span>
-                    <span class="stat-label">pLDDT Score</span>
+                    <span class="stat-number">22M+</span>
+                    <span class="stat-label">Light Chains</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">60.7%</span>
-                    <span class="stat-label">Sequence Identity</span>
+                    <span class="stat-number">588K</span>
+                    <span class="stat-label">Paired Sequences</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">93.1%</span>
-                    <span class="stat-label">Germline Similarity</span>
+                    <span class="stat-number">86M</span>
+                    <span class="stat-label">Parameters</span>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <p>This suggests the model learned to prioritize structural and functional constraints over exact sequence reproduction—capturing the essential features that enable proper antibody folding and assembly.</p>
+    <!-- Panel 4: Key Findings -->
+    <section class="panel" id="panel-3">
+        <div class="panel-content">
+            <h2>Key Findings</h2>
+            
+            <div class="scrollable-content">
+                <h3>1. Maturation-Dependent Pairing Constraints</h3>
 
-            <h3>4. Co-evolutionary Relationships</h3>
+                <div class="key-finding">
+                    <p><strong>Memory B cells exhibit restricted V gene pairing preferences.</strong></p>
+                    <p>When we analyzed the light chains generated from memory B cell heavy chains, we found that 16.1% of memory-derived heavy chains consistently generated light chains using the same V gene family (≥80% consensus). In contrast, only 0.8% of naive B cell heavy chains showed this restriction.</p>
+                    <p>Permutation testing confirmed this pattern significantly exceeds chance expectations (p < 0.001), demonstrating that the model learned genuine maturation-dependent pairing rules rather than simply memorizing training data correlations.</p>
+                </div>
 
-            <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002). The model captured how paired chains co-evolve during somatic hypermutation.</p>
-        </section>
+                <p>This finding aligns with recent experimental observations that memory B cells show pronounced heavy-light interdependence<a href="#ref5" class="reference">[5]</a>.</p>
 
-        <h2>Technical Performance</h2>
+                <h3>2. The Trimodal Kappa Distribution</h3>
 
-        <section>
-            <p>Beyond the biological insights, we evaluated the models' technical capabilities:</p>
+                <p>When we analyzed sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
 
-            <div class="highlight-box">
-                <h3>Pre-trained Model Performance</h3>
-                <ul>
-                    <li><strong>HeavyBERTa (large)</strong>: 89.12% masking accuracy, 92.31% maturation state classification accuracy</li>
-                    <li><strong>LightGPT</strong>: 86.35% next-token prediction accuracy, 79.17% maturation state classification</li>
-                </ul>
-                
-                <h3>Heavy2Light Generation Quality</h3>
-                <ul>
-                    <li><strong>Framework regions</strong>: 58.5-72.9% mean sequence identity</li>
-                    <li><strong>CDR regions</strong>: 33.4-40.3% mean sequence identity</li>
-                    <li><strong>Pairing compatibility</strong>: 76.7% of maturation-matched pairs exceeded ImmunoMatch threshold (0.5)</li>
-                </ul>
+                <div class="highlight-box">
+                    <p><strong>Our hypothesis:</strong> These three modes represent different pairing strategies—from promiscuous public light chains (~30-40% similarity) that pair with many heavy chains, to semi-specialized pairings (~50-60%), to highly specific co-evolved pairs (~70-80%) selected during affinity maturation.</p>
+                </div>
+
+                <h3>3. Structural Conservation Despite Sequence Divergence</h3>
+
+                <p>Generated light chains with as little as 31% sequence identity to their true counterparts still folded into correct 3D structures<a href="#ref8" class="reference">[8]</a>.</p>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">93.9%</span>
+                        <span class="stat-label">pTM Score</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">91.7</span>
+                        <span class="stat-label">pLDDT Score</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">60.7%</span>
+                        <span class="stat-label">Sequence Identity</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">93.1%</span>
+                        <span class="stat-label">Germline Similarity</span>
+                    </div>
+                </div>
+
+                <h3>4. Co-evolutionary Relationships</h3>
+
+                <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002).</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <h2>What This Means</h2>
+    <!-- Panel 5: Technical Performance -->
+    <section class="panel" id="panel-4">
+        <div class="panel-content">
+            <h2>Technical Performance</h2>
+            
+            <div class="scrollable-content">
+                <p>Beyond the biological insights, we evaluated the models' technical capabilities:</p>
 
-        <section>
+                <div class="highlight-box">
+                    <h3>Pre-trained Model Performance</h3>
+                    <ul>
+                        <li><strong>HeavyBERTa (large)</strong>: 89.12% masking accuracy, 92.31% maturation state classification accuracy</li>
+                        <li><strong>LightGPT</strong>: 86.35% next-token prediction accuracy, 79.17% maturation state classification</li>
+                    </ul>
+                    
+                    <h3>Heavy2Light Generation Quality</h3>
+                    <ul>
+                        <li><strong>Framework regions</strong>: 58.5-72.9% mean sequence identity</li>
+                        <li><strong>CDR regions</strong>: 33.4-40.3% mean sequence identity</li>
+                        <li><strong>Pairing compatibility</strong>: 76.7% of maturation-matched pairs exceeded ImmunoMatch threshold (0.5)</li>
+                    </ul>
+                </div>
+
+                <h3>Limitations</h3>
+                <p>Key challenges remain: moderate sequence recovery (especially in CDR regions), the unexplained trimodal κ distribution, difficulty modeling λ chains, germline bias toward naive-like sequences, and the need for experimental validation of generated antibodies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel 6: What This Means -->
+    <section class="panel" id="panel-5">
+        <div class="panel-content">
+            <h2>What This Means</h2>
+            
             <p>Heavy2Light demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints without explicit supervision. The model learned maturation-dependent preferences, germline co-evolution patterns, structural constraints, and V gene restrictions—all from sequence data alone.</p>
 
-            <p><strong>Potential applications:</strong> computational repertoire analysis, therapeutic antibody optimization, bispecific antibody engineering, and tracking immune dynamics during vaccination or infection.</p>
-        </section>
+            <div class="highlight-box">
+                <h3>Potential Applications</h3>
+                <ul>
+                    <li><strong>Computational repertoire analysis</strong>: Inferring pairing relationships in large-scale unpaired datasets</li>
+                    <li><strong>Therapeutic antibody optimization</strong>: Designing light chains matched to heavy chain properties</li>
+                    <li><strong>Bispecific antibody engineering</strong>: Predicting heavy-light pairing preferences to improve assembly</li>
+                    <li><strong>Immune dynamics studies</strong>: Tracking pairing preferences during vaccination or infection</li>
+                </ul>
+            </div>
 
-        <h2>Limitations</h2>
+            <h3>Resources</h3>
+            <div class="links">
+                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
+                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
+                <a href="#" class="link-button">Read the Paper</a>
+            </div>
 
-        <section>
-            <p>Key challenges remain: moderate sequence recovery (especially in CDR regions), the unexplained trimodal κ distribution, difficulty modeling λ chains, germline bias toward naive-like sequences, and the need for experimental validation of generated antibodies.</p>
-        </section>
+            <p style="margin-top: 2rem; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                This work was conducted at the Institute of Biochemistry and Molecular Medicine (IBMM), University of Bern, 
+                and supported by the Helmut Horten Young Investigator Program 2022.
+            </p>
 
-        <section class="references-section">
+            <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+                <em>Lea Brönnimann, Thomas Lemmin, and Chiara Rodella</em>
+            </p>
+        </div>
+    </section>
+
+    <!-- Panel 7: References -->
+    <section class="panel" id="panel-6">
+        <div class="panel-content">
             <h2>References</h2>
             <ol class="reference-list">
                 <li id="ref1">
@@ -818,25 +726,55 @@
                     <a href="https://doi.org/10.1101/2024.10.10.615955" target="_blank">https://doi.org/10.1101/2024.10.10.615955</a>
                 </li>
             </ol>
-        </section>
+        </div>
+    </section>
 
-        <footer class="footer">
-            <h2>Resources</h2>
-            <div class="links">
-                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
-                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
-                <a href="#" class="link-button">Read the Paper</a>
-            </div>
+    <script>
+        // Update active nav dot on scroll
+        const panels = document.querySelectorAll('.panel');
+        const navDots = document.querySelectorAll('.nav-dot');
 
-            <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
-                This work was conducted at the Institute of Biochemistry and Molecular Medicine (IBMM), University of Bern, 
-                and supported by the Helmut Horten Young Investigator Program 2022.
-            </p>
+        function updateActiveNavDot() {
+            let currentPanel = 0;
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                <em>Lea Brönnimann, Thomas Lemmin, and Chiara Rodella</em>
-            </p>
-        </footer>
-    </div>
+            panels.forEach((panel, index) => {
+                const panelTop = panel.offsetTop;
+                const panelBottom = panelTop + panel.offsetHeight;
+
+                if (scrollPosition >= panelTop && scrollPosition < panelBottom) {
+                    currentPanel = index;
+                }
+            });
+
+            navDots.forEach((dot, index) => {
+                if (index === currentPanel) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function scrollToPanel(index) {
+            panels[index].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', updateActiveNavDot);
+        updateActiveNavDot();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentIndex = Array.from(navDots).findIndex(dot => dot.classList.contains('active'));
+            
+            if (e.key === 'ArrowDown' && currentIndex < panels.length - 1) {
+                e.preventDefault();
+                scrollToPanel(currentIndex + 1);
+            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                e.preventDefault();
+                scrollToPanel(currentIndex - 1);
+            }
+        });
+    </script>
 </body>
 </html>
