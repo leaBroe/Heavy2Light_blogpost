@@ -256,6 +256,20 @@
             display: block;
         }
 
+        /* Video container */
+        .video-container {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 162, 144, 0.15);
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
         .scroll-hint {
             position: absolute;
             bottom: 2rem;
@@ -706,6 +720,13 @@
                         <span class="stat-number">93.1%</span>
                         <span class="stat-label">Germline Similarity</span>
                     </div>
+                </div>
+
+                <div class="video-container">
+                    <video controls loop>
+                        <source src="Heavy2Light/movie12.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
 
                 <h3>4. Co-evolutionary Relationships</h3>
