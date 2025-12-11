@@ -155,6 +155,14 @@
             animation: scaleIn 0.6s ease-out 0.6s backwards;
         }
 
+        .image-container {
+            margin: 2.5rem auto;
+            max-width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: scaleIn 0.6s ease-out 0.6s backwards;
+        }
+
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -541,7 +549,7 @@
                 <p>We combined these models into <strong>Heavy2Light</strong>, an encoder-decoder architecture that learned to translate heavy chains into plausible light chains using ~588,000 paired sequences.</p>
             </div>
 
-            <div class="header-image-container">
+            <div class="image-container">
                 <img src="Heavy2Light/fig_1.png" class="header-image" alt="Heavy2Light Logo">
             </div>
 
