@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy2Light: Teaching AI to Predict Antibody Pairing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&family=Literata:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #fdfbf7;
+            --bg-secondary: #f5f1e8;
+            --text-primary: #2a2a2a;
+            --text-secondary: #5a5a5a;
+            --accent-primary: #c7522a;
+            --accent-secondary: #e5a040;
+            --code-bg: #2d3748;
+            --border-color: #d4c5b0;
+        }
+
+        body {
+            font-family: 'Literata', Georgia, serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(199, 82, 42, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(229, 160, 64, 0.04) 0%, transparent 50%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            color: var(--accent-primary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.4em;
+            width: 0.7rem;
+            height: 0.7rem;
+            background: var(--accent-secondary);
+            border-radius: 50%;
+        }
+
+        h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .key-finding {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #fdfbf7 100%);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .key-finding p {
+            margin-bottom: 0.75rem;
+        }
+
+        .key-finding p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 4px 8px 20px rgba(199, 82, 42, 0.1);
+        }
+
+        .stat-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        code {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg-secondary);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .method-section {
+            background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .link-button {
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .link-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(199, 82, 42, 0.3);
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #e8dcc8 100%);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        .reference {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85em;
+            vertical-align: super;
+            transition: color 0.2s ease;
+        }
+
+        .reference:hover {
+            color: var(--accent-secondary);
+        }
+
+        .references-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .references-section h2 {
+            margin-top: 0;
+        }
+
+        .reference-list {
+            list-style: none;
+            margin: 2rem 0;
+            padding: 0;
+        }
+
+        .reference-list li {
+            margin-bottom: 1.5rem;
+            padding-left: 2.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .reference-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .reference-list a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-primary);
+            transition: border-bottom 0.2s ease;
+        }
+
+        .reference-list a:hover {
+            border-bottom: 1px solid var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Heavy2Light: Teaching AI to Predict Antibody Pairing</h1>
+            <p class="subtitle">Deep learning reveals the hidden grammar of immune receptor assembly</p>
+            <p class="meta">Lea Brönnimann • Institute of Biochemistry and Molecular Medicine, University of Bern</p>
+        </header>
+
+        <section>
+            <p>The human immune system generates billions of different antibodies through an intricate molecular assembly process<a href="#ref1" class="reference">[1]</a>. Each antibody consists of two heavy chains and two light chains that must pair correctly to function—but which heavy chains prefer which light chains? Despite decades of research, this pairing logic has remained largely mysterious, hidden in the vast sequence space of antibody repertoires.</p>
+
+            <p>In our recent study, we developed <strong>Heavy2Light</strong>, a deep learning framework that can predict light chain sequences given only a heavy chain as input. More importantly, this model uncovered fundamental principles about how antibody pairing preferences evolve during immune maturation.</p>
+        </section>
+
+        <h2>The Challenge: Lost Pairing Information</h2>
+
+        <section>
+            <p>Modern sequencing technologies can capture millions of antibody sequences from a single blood sample, revolutionizing our ability to study immune responses<a href="#ref2" class="reference">[2]</a>. However, these high-throughput methods typically lose track of which heavy chains naturally pair with which light chains<a href="#ref3" class="reference">[3]</a>—analogous to having a database of millions of left and right shoes, but no record of which pairs actually fit together.</p>
+
+            <p>This missing pairing information creates significant challenges. Randomly paired heavy and light chains often produce non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>. Understanding the natural pairing preferences is critical for:</p>
+
+            <ul>
+                <li><strong>Therapeutic antibody design</strong>: Ensuring stability and reducing immunogenicity</li>
+                <li><strong>Bispecific antibody engineering</strong>: Achieving correct heavy-light assembly</li>
+                <li><strong>Repertoire analysis</strong>: Decoding immune response architecture</li>
+                <li><strong>Basic immunology</strong>: Understanding B cell selection and maturation</li>
+            </ul>
+        </section>
+
+        <h2>Our Approach: Two-Stage Deep Learning</h2>
+
+        <section>
+            <p>We faced a fundamental data imbalance: public databases contain over 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. To leverage this wealth of unpaired data while learning pairing relationships, we developed a two-stage strategy:</p>
+
+            <div class="method-section">
+                <h3>Stage 1: Pre-training on Unpaired Sequences</h3>
+                <p>We built two specialized language models from scratch:</p>
+                <ul>
+                    <li><strong>HeavyBERTa</strong>: A bidirectional transformer trained on 99M+ heavy chain sequences using masked language modeling (similar to BERT for natural language)</li>
+                    <li><strong>LightGPT</strong>: An autoregressive transformer trained on 22M+ light chain sequences (similar to GPT)</li>
+                </ul>
+                <p>These models learned to capture V(D)J gene usage patterns, framework conservation, and CDR diversity without any pairing supervision.</p>
+            </div>
+
+            <div class="method-section">
+                <h3>Stage 2: Fine-tuning for Translation</h3>
+                <p>We integrated the pre-trained models into an encoder-decoder architecture called <strong>Heavy2Light</strong>. Using parameter-efficient adapter modules, we fine-tuned this combined model on ~588,000 paired sequences to learn the translation task: generating plausible light chains conditioned on heavy chain input.</p>
+            </div>
+        </section>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="stat-number">99M+</span>
+                <span class="stat-label">Heavy Chains</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">22M+</span>
+                <span class="stat-label">Light Chains</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">588K</span>
+                <span class="stat-label">Paired Sequences</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">86M</span>
+                <span class="stat-label">Parameters</span>
+            </div>
+        </div>
+
+        <h2>Key Findings</h2>
+
+        <section>
+            <h3>1. Maturation-Dependent Pairing Constraints</h3>
+
+            <div class="key-finding">
+                <p><strong>Memory B cells exhibit restricted V gene pairing preferences.</strong></p>
+                <p>When we analyzed the light chains generated from memory B cell heavy chains, we found that 16.1% of memory-derived heavy chains consistently generated light chains using the same V gene family (≥80% consensus). In contrast, only 0.8% of naive B cell heavy chains showed this restriction.</p>
+                <p>Permutation testing confirmed this pattern significantly exceeds chance expectations (p < 0.001), demonstrating that the model learned genuine maturation-dependent pairing rules rather than simply memorizing training data correlations.</p>
+            </div>
+
+            <p>This finding aligns with recent experimental observations that memory B cells show pronounced heavy-light interdependence, where specific heavy chain V genes preferentially select particular light chain V genes<a href="#ref5" class="reference">[5]</a>. Our computational model captured this biological phenomenon without explicit supervision.</p>
+
+            <h3>2. The Trimodal Kappa Distribution</h3>
+
+            <p>When we plotted sequence similarity between generated and true κ light chains, we observed an unexpected trimodal distribution—three distinct peaks rather than a single broad distribution. This pattern appeared in both naive and memory B cells and could not be explained by V gene usage, germline similarity, or maturation state.</p>
+
+            <div class="highlight-box">
+                <p><strong>Biological Interpretation:</strong></p>
+                <p>We hypothesize these three modes represent distinct functional pairing strategies in the κ repertoire:</p>
+                <ul>
+                    <li><strong>Low similarity mode (~30-40%)</strong>: Promiscuous public light chains that can pair with diverse heavy chains</li>
+                    <li><strong>Middle mode (~50-60%)</strong>: Semi-specialized pairings with moderate constraints</li>
+                    <li><strong>High similarity mode (~70-80%)</strong>: Highly specific, co-evolved heavy-light pairs selected during affinity maturation</li>
+                </ul>
+            </div>
+
+            <p>Lambda (λ) chains showed a different pattern, dominated by lower recovery rates. This likely reflects their greater structural flexibility—λ chains have longer, more diverse CDR-L3 regions and less stereotyped VL-VH interfaces compared to κ chains<a href="#ref6" class="reference">[6,7]</a>.</p>
+
+            <h3>3. Structural Conservation Despite Sequence Divergence</h3>
+
+            <p>Perhaps most intriguingly, generated light chains with as little as 31% sequence identity to their true counterparts still folded into correct 3D structures when predicted using Chai-1<a href="#ref8" class="reference">[8]</a>. The model achieved high structural confidence metrics:</p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-number">93.9%</span>
+                    <span class="stat-label">pTM Score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">91.7</span>
+                    <span class="stat-label">pLDDT Score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">60.7%</span>
+                    <span class="stat-label">Sequence Identity</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">93.1%</span>
+                    <span class="stat-label">Germline Similarity</span>
+                </div>
+            </div>
+
+            <p>This suggests the model learned to prioritize structural and functional constraints over exact sequence reproduction—capturing the essential features that enable proper antibody folding and assembly.</p>
+
+            <h3>4. Germline Identity Correlations</h3>
+
+            <p>Heavy2Light-generated light chains exhibited correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching the correlation observed in native pairs (R = 0.593) and far exceeding randomly shuffled pairs (R = -0.002). This demonstrates the model captured co-evolutionary relationships that develop during somatic hypermutation, where paired chains tend to diverge from germline at similar rates.</p>
+        </section>
+
+        <h2>Technical Performance</h2>
+
+        <section>
+            <p>Beyond the biological insights, we evaluated the models' technical capabilities:</p>
+
+            <div class="highlight-box">
+                <h3>Pre-trained Model Performance</h3>
+                <ul>
+                    <li><strong>HeavyBERTa (large)</strong>: 89.12% masking accuracy, 92.31% maturation state classification accuracy</li>
+                    <li><strong>LightGPT</strong>: 86.35% next-token prediction accuracy, 79.17% maturation state classification</li>
+                </ul>
+                
+                <h3>Heavy2Light Generation Quality</h3>
+                <ul>
+                    <li><strong>Framework regions</strong>: 58.5-72.9% mean sequence identity</li>
+                    <li><strong>CDR regions</strong>: 33.4-40.3% mean sequence identity</li>
+                    <li><strong>Pairing compatibility</strong>: 76.7% of maturation-matched pairs exceeded ImmunoMatch threshold (0.5)</li>
+                </ul>
+            </div>
+        </section>
+
+        <h2>Implications and Future Directions</h2>
+
+        <section>
+            <p>This work demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints from sequence data alone, even when exact sequence recovery remains modest. The model learned:</p>
+
+            <ul>
+                <li>Maturation-dependent pairing preferences that correlate with experimental observations</li>
+                <li>Germline co-evolution patterns resulting from somatic hypermutation</li>
+                <li>Structural constraints necessary for proper antibody folding</li>
+                <li>V gene usage restrictions characteristic of memory B cells</li>
+            </ul>
+
+            <p><strong>Future applications</strong> could include:</p>
+
+            <ul>
+                <li><strong>Computational repertoire analysis</strong>: Inferring pairing relationships in large-scale unpaired datasets</li>
+                <li><strong>Therapeutic antibody optimization</strong>: Designing light chains matched to heavy chain properties</li>
+                <li><strong>Bispecific antibody engineering</strong>: Predicting heavy-light pairing preferences to improve assembly</li>
+                <li><strong>Immune dynamics studies</strong>: Tracking pairing preferences during vaccination or infection</li>
+            </ul>
+
+            <p>Extending this framework to incorporate antigen specificity, structural constraints, or functional properties represents an exciting frontier for antibody design and systems immunology.</p>
+        </section>
+
+        <h2>Limitations and Open Questions</h2>
+
+        <section>
+            <p>Several important limitations and questions remain:</p>
+
+            <ul>
+                <li><strong>Moderate sequence recovery</strong>: CDR regions showed 33-40% identity, reflecting their extreme diversity but leaving room for improvement through structure-guided approaches</li>
+                <li><strong>Trimodal distribution mechanism</strong>: The biological basis of the three κ chain similarity modes requires experimental validation</li>
+                <li><strong>Lambda chain modeling</strong>: λ chains proved more challenging than κ chains, likely due to their greater structural flexibility</li>
+                <li><strong>Germline bias</strong>: The model showed a tendency toward naive-like sequences, reflecting database composition</li>
+                <li><strong>Experimental validation needed</strong>: Functional testing is required to confirm that generated sequences produce active antibodies</li>
+            </ul>
+
+            <p>These challenges highlight opportunities for incorporating structural information, epitope-guided design, and experimental feedback into future iterations.</p>
+        </section>
+
+        <section class="references-section">
+            <h2>References</h2>
+            <ol class="reference-list">
+                <li id="ref1">
+                    <span class="reference-number">[1]</span>
+                    Tonegawa, S. (1983). Somatic generation of antibody diversity. <em>Nature</em>, 302, 575-581. 
+                    <a href="https://doi.org/10.1038/302575a0" target="_blank">https://doi.org/10.1038/302575a0</a>
+                </li>
+                <li id="ref2">
+                    <span class="reference-number">[2]</span>
+                    Marks, C., & Deane, C.M. (2020). How repertoire data are changing antibody science. <em>Journal of Biological Chemistry</em>, 295, 9823-9837. 
+                    <a href="https://doi.org/10.1074/jbc.REV120.010181" target="_blank">https://doi.org/10.1074/jbc.REV120.010181</a>
+                </li>
+                <li id="ref3">
+                    <span class="reference-number">[3]</span>
+                    DeKosky, B.J., Kojima, T., Rodin, A., et al. (2015). In-depth determination and analysis of the human paired heavy- and light-chain antibody repertoire. <em>Nature Medicine</em>, 21, 86-91. 
+                    <a href="https://doi.org/10.1038/nm.3743" target="_blank">https://doi.org/10.1038/nm.3743</a>
+                </li>
+                <li id="ref4">
+                    <span class="reference-number">[4]</span>
+                    Novobrantseva, T. (2005). Stochastic pairing of Ig heavy and light chains frequently generates B cell antigen receptors that are subject to editing in vivo. <em>International Immunology</em>, 17, 343-350. 
+                    <a href="https://doi.org/10.1093/intimm/dxh214" target="_blank">https://doi.org/10.1093/intimm/dxh214</a>
+                </li>
+                <li id="ref5">
+                    <span class="reference-number">[5]</span>
+                    Jaffe, D.B., Shahi, P., Adams, B.A., et al. (2022). Functional antibodies exhibit light chain coherence. <em>Nature</em>, 611, 352-357. 
+                    <a href="https://doi.org/10.1038/s41586-022-05371-z" target="_blank">https://doi.org/10.1038/s41586-022-05371-z</a>
+                </li>
+                <li id="ref6">
+                    <span class="reference-number">[6]</span>
+                    Van Der Kant, R., Bauer, J., Karow-Zwick, A.R., et al. (2019). Adaption of human antibody λ and κ light chain architectures to CDR repertoires. <em>Protein Engineering, Design and Selection</em>, 32, 109-127. 
+                    <a href="https://doi.org/10.1093/protein/gzz012" target="_blank">https://doi.org/10.1093/protein/gzz012</a>
+                </li>
+                <li id="ref7">
+                    <span class="reference-number">[7]</span>
+                    Schwartz, G.W., & Hershberg, U. (2013). Conserved variation: Identifying patterns of stability and variability in BCR and TCR V genes with different diversity and richness metrics. <em>Physical Biology</em>, 10, 035005. 
+                    <a href="https://doi.org/10.1088/1478-3975/10/3/035005" target="_blank">https://doi.org/10.1088/1478-3975/10/3/035005</a>
+                </li>
+                <li id="ref8">
+                    <span class="reference-number">[8]</span>
+                    Chai Discovery, Boitreaud, J., Dent, J., et al. (2024). Chai-1: Decoding the molecular interactions of life. <em>bioRxiv</em>. 
+                    <a href="https://doi.org/10.1101/2024.10.10.615955" target="_blank">https://doi.org/10.1101/2024.10.10.615955</a>
+                </li>
+            </ol>
+
+            <h3 style="margin-top: 3rem; font-size: 1.2rem;">Further Reading</h3>
+            <ol class="reference-list" style="margin-top: 1rem;">
+                <li>
+                    <span class="reference-number">•</span>
+                    Olsen, T.H., Boyles, F., & Deane, C.M. (2022). Observed Antibody Space: A diverse database of cleaned, annotated, and translated unpaired and paired antibody sequences. <em>Protein Science</em>, 31, 141-146. 
+                    <a href="https://doi.org/10.1002/pro.4205" target="_blank">https://doi.org/10.1002/pro.4205</a>
+                </li>
+                <li>
+                    <span class="reference-number">•</span>
+                    Burbach, S.M., & Briney, B. (2024). Improving antibody language models with native pairing. <em>Patterns</em>, 5, 100967. 
+                    <a href="https://doi.org/10.1016/j.patter.2024.100967" target="_blank">https://doi.org/10.1016/j.patter.2024.100967</a>
+                </li>
+                <li>
+                    <span class="reference-number">•</span>
+                    Guo, D., Dunn-Walters, D.K., Fraternali, F., & Ng, J.C.F. (2025). ImmunoMatch learns and predicts cognate pairing of heavy and light immunoglobulin chains. <em>bioRxiv</em>. 
+                    <a href="https://doi.org/10.1101/2025.02.11.637677" target="_blank">https://doi.org/10.1101/2025.02.11.637677</a>
+                </li>
+            </ol>
+        </section>
+
+        <footer class="footer">
+            <h2>Resources</h2>
+            <div class="links">
+                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
+                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
+                <a href="#" class="link-button">Read the Paper</a>
+            </div>
+
+            <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+                This work was conducted at the Institute of Biochemistry and Molecular Medicine (IBMM), University of Bern, 
+                and supported by the Helmut Horten Young Investigator Program 2022.
+            </p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
+                <em>Lea Brönnimann, Thomas Lemmin, and Chiara Rodella</em>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
