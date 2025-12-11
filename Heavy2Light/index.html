@@ -77,6 +77,41 @@
             letter-spacing: 0.05em;
         }
 
+        .header-image-container {
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: fadeInImage 1s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeInImage {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .image-caption {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            margin-top: 0.75rem;
+            line-height: 1.5;
+        }
+
         h2 {
             font-family: 'Crimson Pro', serif;
             font-size: 2rem;
@@ -330,6 +365,13 @@
             <h1>Heavy2Light: Teaching AI to Predict Antibody Pairing</h1>
             <p class="subtitle">Deep learning reveals the hidden grammar of immune receptor assembly</p>
             <p class="meta">Lea Brönnimann • Institute of Biochemistry and Molecular Medicine, University of Bern</p>
+            
+            <div class="header-image-container">
+                <img src="Heavy2Light/logo_heavy2light.png" alt="" class="header-image">
+            </div>
+            <p class="image-caption">
+                Heavy2Light architecture combining pre-trained HeavyBERTa and LightGPT models to generate light chains from heavy chain sequences.
+            </p>
         </header>
 
         <section>
