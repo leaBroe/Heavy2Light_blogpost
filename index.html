@@ -533,10 +533,8 @@
         <div class="nav-dot" data-label="Challenge" onclick="scrollToPanel(1)"></div>
         <div class="nav-dot" data-label="Approach" onclick="scrollToPanel(2)"></div>
         <div class="nav-dot" data-label="Findings" onclick="scrollToPanel(3)"></div>
-        <div class="nav-dot" data-label="Technical" onclick="scrollToPanel(4)"></div>
-        <div class="nav-dot" data-label="Impact" onclick="scrollToPanel(5)"></div>
-        <div class="nav-dot" data-label="References" onclick="scrollToPanel(6)"></div>
-        <div class="nav-dot" data-label="Resources" onclick="scrollToPanel(7)"></div>
+        <div class="nav-dot" data-label="Impact" onclick="scrollToPanel(4)"></div>
+        <div class="nav-dot" data-label="References" onclick="scrollToPanel(5)"></div>
     </div>
 
     <!-- Panel 1: Hero / Overview -->
@@ -683,37 +681,8 @@
         </div>
     </section>
 
-    <!-- Panel 5: Technical Performance -->
+    <!-- Panel 5: What This Means -->
     <section class="panel" id="panel-4">
-        <div class="panel-content">
-            <h2>Technical Performance</h2>
-            
-            <div class="scrollable-content">
-                <p>Beyond the biological insights, we evaluated the models' technical capabilities:</p>
-
-                <div class="highlight-box">
-                    <h3>Pre-trained Model Performance</h3>
-                    <ul>
-                        <li><strong>HeavyBERTa (large)</strong>: 89.12% masking accuracy, 92.31% maturation state classification accuracy</li>
-                        <li><strong>LightGPT</strong>: 86.35% next-token prediction accuracy, 79.17% maturation state classification</li>
-                    </ul>
-                    
-                    <h3>Heavy2Light Generation Quality</h3>
-                    <ul>
-                        <li><strong>Framework regions</strong>: 58.5-72.9% mean sequence identity</li>
-                        <li><strong>CDR regions</strong>: 33.4-40.3% mean sequence identity</li>
-                        <li><strong>Pairing compatibility</strong>: 76.7% of maturation-matched pairs exceeded ImmunoMatch threshold (0.5)</li>
-                    </ul>
-                </div>
-
-                <h3>Limitations</h3>
-                <p>Key challenges remain: moderate sequence recovery (especially in CDR regions), the unexplained trimodal κ distribution, difficulty modeling λ chains, germline bias toward naive-like sequences, and the need for experimental validation of generated antibodies.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Panel 6: What This Means -->
-    <section class="panel" id="panel-5">
         <div class="panel-content">
             <h2>What This Means</h2>
 
@@ -731,8 +700,8 @@
         </div>
     </section>
 
-    <!-- Panel 7: References -->
-    <section class="panel" id="panel-6">
+    <!-- Panel 6: References -->
+    <section class="panel" id="panel-5">
         <div class="panel-content">
             <h2>References</h2>
             <ol class="reference-list">
@@ -777,14 +746,8 @@
                     <a href="https://doi.org/10.1101/2024.10.10.615955" target="_blank">https://doi.org/10.1101/2024.10.10.615955</a>
                 </li>
             </ol>
-        </div>
-    </section>
 
-    <!-- Panel 8: Resources -->
-    <section class="panel" id="panel-7">
-        <div class="panel-content">
             <h2>Resources</h2>
-
             <div class="links">
                 <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
                 <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
