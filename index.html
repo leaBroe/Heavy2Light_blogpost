@@ -13,14 +13,14 @@
         }
 
         :root {
-            --bg-primary: #fdfbf7;
-            --bg-secondary: #f5f1e8;
+            --bg-primary: #fafcfc;
+            --bg-secondary: #f0f7f6;
             --text-primary: #2a2a2a;
             --text-secondary: #5a5a5a;
-            --accent-primary: #c7522a;
-            --accent-secondary: #e5a040;
+            --accent-primary: #00A290;
+            --accent-secondary: #4DD0C0;
             --code-bg: #2d3748;
-            --border-color: #d4c5b0;
+            --border-color: #c5ddd9;
         }
 
         body {
@@ -29,8 +29,8 @@
             color: var(--text-primary);
             background: var(--bg-primary);
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(199, 82, 42, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(229, 160, 64, 0.04) 0%, transparent 50%);
+                radial-gradient(circle at 20% 30%, rgba(0, 162, 144, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(77, 208, 192, 0.06) 0%, transparent 50%);
             overflow-x: hidden;
         }
 
@@ -81,7 +81,7 @@
             margin-top: 2rem;
             margin-left: auto;
             margin-right: auto;
-            max-width: 400px;
+            max-width: 600px;
             border-radius: 8px;
             overflow: hidden;
         }
@@ -153,12 +153,12 @@
         }
 
         .key-finding {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, #fdfbf7 100%);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #fafcfc 100%);
             border-left: 4px solid var(--accent-primary);
             padding: 1.5rem 2rem;
             margin: 2rem 0;
             border-radius: 0 8px 8px 0;
-            box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 2px 4px 12px rgba(0, 162, 144, 0.08);
         }
 
         .key-finding p {
@@ -195,7 +195,7 @@
 
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 4px 8px 20px rgba(199, 82, 42, 0.1);
+            box-shadow: 4px 8px 20px rgba(0, 162, 144, 0.15);
         }
 
         .stat-number {
@@ -269,11 +269,11 @@
         .link-button:hover {
             background: var(--accent-secondary);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(199, 82, 42, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 162, 144, 0.3);
         }
 
         .image-placeholder {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, #e8dcc8 100%);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #d5ebe8 100%);
             border: 2px dashed var(--border-color);
             border-radius: 8px;
             padding: 3rem;
@@ -364,53 +364,45 @@
     <div class="container">
         <header>
             <h1>Heavy2Light: Teaching AI to Predict Antibody Pairing</h1>
-            <div class="header-image-container">
-                <img src="Heavy2Light/logo_heavy2light.png" alt="" class="header-image">
-            </div>
             <p class="subtitle">Deep learning reveals the hidden grammar of immune receptor assembly</p>
-           <!-- <p class="meta">Lea Brönnimann • Institute of Biochemistry and Molecular Medicine, University of Bern</p> -->
-            </p>
+            <p class="meta">Lea Brönnimann • Institute of Biochemistry and Molecular Medicine, University of Bern</p>
+            
+            <div class="header-image-container">
+                <img src="Heavy2Light/logo_heavy2light.png" class="header-image">
+            </div>
         </header>
 
         <section>
-            <p>The human immune system generates billions of different antibodies through an intricate molecular assembly process<a href="#ref1" class="reference">[1]</a>. Each antibody consists of two heavy chains and two light chains that must pair correctly to function—but which heavy chains prefer which light chains? Despite decades of research, this pairing logic has remained largely mysterious, hidden in the vast sequence space of antibody repertoires.</p>
+            <p style="font-size: 1.3rem; color: var(--accent-primary); font-weight: 600; text-align: center; margin-bottom: 2rem;">
+                What if we could teach AI to understand the molecular handshake between antibody chains?
+            </p>
 
-            <p>In our recent study, we developed <strong>Heavy2Light</strong>, a deep learning framework that can predict light chain sequences given only a heavy chain as input. More importantly, this model uncovered fundamental principles about how antibody pairing preferences evolve during immune maturation.</p>
+            <p>Your immune system generates billions of different antibodies, each consisting of two heavy chains and two light chains that must pair correctly to function. But here's the problem: despite decades of research, we still don't fully understand which heavy chains prefer which light chains.</p>
+
+            <p>We developed <strong>Heavy2Light</strong>—a deep learning framework that learned to predict light chain sequences from heavy chains alone. More importantly, it revealed fundamental principles about how these pairing preferences evolve during immune maturation.</p>
         </section>
 
         <h2>The Challenge: Lost Pairing Information</h2>
 
         <section>
-            <p>Modern sequencing technologies can capture millions of antibody sequences from a single blood sample, revolutionizing our ability to study immune responses<a href="#ref2" class="reference">[2]</a>. However, these high-throughput methods typically lose track of which heavy chains naturally pair with which light chains<a href="#ref3" class="reference">[3]</a>—analogous to having a database of millions of left and right shoes, but no record of which pairs actually fit together.</p>
+            <p>Modern sequencing can capture millions of antibody sequences from a single blood sample<a href="#ref2" class="reference">[2]</a>, but there's a catch: these methods lose track of which heavy chains naturally pair with which light chains<a href="#ref3" class="reference">[3]</a>. It's like having millions of left and right shoes with no record of which pairs go together.</p>
 
-            <p>This missing pairing information creates significant challenges. Randomly paired heavy and light chains often produce non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>. Understanding the natural pairing preferences is critical for:</p>
-
-            <ul>
-                <li><strong>Therapeutic antibody design</strong>: Ensuring stability and reducing immunogenicity</li>
-                <li><strong>Bispecific antibody engineering</strong>: Achieving correct heavy-light assembly</li>
-                <li><strong>Repertoire analysis</strong>: Decoding immune response architecture</li>
-                <li><strong>Basic immunology</strong>: Understanding B cell selection and maturation</li>
-            </ul>
+            <p>This matters because random pairing often produces non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>—understanding natural pairing preferences is critical for therapeutic antibody design, bispecific engineering, and decoding immune responses.</p>
         </section>
 
         <h2>Our Approach: Two-Stage Deep Learning</h2>
 
         <section>
-            <p>We faced a fundamental data imbalance: public databases contain over 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. To leverage this wealth of unpaired data while learning pairing relationships, we developed a two-stage strategy:</p>
+            <p>We faced a data challenge: 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. Our solution? A two-stage approach:</p>
 
             <div class="method-section">
-                <h3>Stage 1: Pre-training on Unpaired Sequences</h3>
-                <p>We built two specialized language models from scratch:</p>
-                <ul>
-                    <li><strong>HeavyBERTa</strong>: A bidirectional transformer trained on 99M+ heavy chain sequences using masked language modeling (similar to BERT for natural language)</li>
-                    <li><strong>LightGPT</strong>: An autoregressive transformer trained on 22M+ light chain sequences (similar to GPT)</li>
-                </ul>
-                <p>These models learned to capture V(D)J gene usage patterns, framework conservation, and CDR diversity without any pairing supervision.</p>
+                <h3>Stage 1: Pre-training</h3>
+                <p>We built two specialized language models—<strong>HeavyBERTa</strong> (trained on 99M+ heavy chains) and <strong>LightGPT</strong> (trained on 22M+ light chains)—to learn the "grammar" of antibody sequences.</p>
             </div>
 
             <div class="method-section">
-                <h3>Stage 2: Fine-tuning for Translation</h3>
-                <p>We integrated the pre-trained models into an encoder-decoder architecture called <strong>Heavy2Light</strong>. Using parameter-efficient adapter modules, we fine-tuned this combined model on ~588,000 paired sequences to learn the translation task: generating plausible light chains conditioned on heavy chain input.</p>
+                <h3>Stage 2: Fine-tuning</h3>
+                <p>We combined these models into <strong>Heavy2Light</strong>, an encoder-decoder architecture that learned to translate heavy chains into plausible light chains using ~588,000 paired sequences.</p>
             </div>
         </section>
 
@@ -448,19 +440,13 @@
 
             <h3>2. The Trimodal Kappa Distribution</h3>
 
-            <p>When we plotted sequence similarity between generated and true κ light chains, we observed an unexpected trimodal distribution—three distinct peaks rather than a single broad distribution. This pattern appeared in both naive and memory B cells and could not be explained by V gene usage, germline similarity, or maturation state.</p>
+            <p>When we analyzed sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
 
             <div class="highlight-box">
-                <p><strong>Biological Interpretation:</strong></p>
-                <p>We hypothesize these three modes represent distinct functional pairing strategies in the κ repertoire:</p>
-                <ul>
-                    <li><strong>Low similarity mode (~30-40%)</strong>: Promiscuous public light chains that can pair with diverse heavy chains</li>
-                    <li><strong>Middle mode (~50-60%)</strong>: Semi-specialized pairings with moderate constraints</li>
-                    <li><strong>High similarity mode (~70-80%)</strong>: Highly specific, co-evolved heavy-light pairs selected during affinity maturation</li>
-                </ul>
+                <p><strong>Our hypothesis:</strong> These three modes represent different pairing strategies—from promiscuous public light chains (~30-40% similarity) that pair with many heavy chains, to semi-specialized pairings (~50-60%), to highly specific co-evolved pairs (~70-80%) selected during affinity maturation.</p>
             </div>
 
-            <p>Lambda (λ) chains showed a different pattern, dominated by lower recovery rates. This likely reflects their greater structural flexibility—λ chains have longer, more diverse CDR-L3 regions and less stereotyped VL-VH interfaces compared to κ chains<a href="#ref6" class="reference">[6,7]</a>.</p>
+            <p>Lambda (λ) chains showed a different pattern, likely reflecting their greater structural flexibility<a href="#ref6" class="reference">[6,7]</a>.</p>
 
             <h3>3. Structural Conservation Despite Sequence Divergence</h3>
 
@@ -487,9 +473,9 @@
 
             <p>This suggests the model learned to prioritize structural and functional constraints over exact sequence reproduction—capturing the essential features that enable proper antibody folding and assembly.</p>
 
-            <h3>4. Germline Identity Correlations</h3>
+            <h3>4. Co-evolutionary Relationships</h3>
 
-            <p>Heavy2Light-generated light chains exhibited correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching the correlation observed in native pairs (R = 0.593) and far exceeding randomly shuffled pairs (R = -0.002). This demonstrates the model captured co-evolutionary relationships that develop during somatic hypermutation, where paired chains tend to diverge from germline at similar rates.</p>
+            <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002). The model captured how paired chains co-evolve during somatic hypermutation.</p>
         </section>
 
         <h2>Technical Performance</h2>
@@ -513,44 +499,18 @@
             </div>
         </section>
 
-        <h2>Implications and Future Directions</h2>
+        <h2>What This Means</h2>
 
         <section>
-            <p>This work demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints from sequence data alone, even when exact sequence recovery remains modest. The model learned:</p>
+            <p>Heavy2Light demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints without explicit supervision. The model learned maturation-dependent preferences, germline co-evolution patterns, structural constraints, and V gene restrictions—all from sequence data alone.</p>
 
-            <ul>
-                <li>Maturation-dependent pairing preferences that correlate with experimental observations</li>
-                <li>Germline co-evolution patterns resulting from somatic hypermutation</li>
-                <li>Structural constraints necessary for proper antibody folding</li>
-                <li>V gene usage restrictions characteristic of memory B cells</li>
-            </ul>
-
-            <p><strong>Future applications</strong> could include:</p>
-
-            <ul>
-                <li><strong>Computational repertoire analysis</strong>: Inferring pairing relationships in large-scale unpaired datasets</li>
-                <li><strong>Therapeutic antibody optimization</strong>: Designing light chains matched to heavy chain properties</li>
-                <li><strong>Bispecific antibody engineering</strong>: Predicting heavy-light pairing preferences to improve assembly</li>
-                <li><strong>Immune dynamics studies</strong>: Tracking pairing preferences during vaccination or infection</li>
-            </ul>
-
-            <p>Extending this framework to incorporate antigen specificity, structural constraints, or functional properties represents an exciting frontier for antibody design and systems immunology.</p>
+            <p><strong>Potential applications:</strong> computational repertoire analysis, therapeutic antibody optimization, bispecific antibody engineering, and tracking immune dynamics during vaccination or infection.</p>
         </section>
 
-        <h2>Limitations and Open Questions</h2>
+        <h2>Limitations</h2>
 
         <section>
-            <p>Several important limitations and questions remain:</p>
-
-            <ul>
-                <li><strong>Moderate sequence recovery</strong>: CDR regions showed 33-40% identity, reflecting their extreme diversity but leaving room for improvement through structure-guided approaches</li>
-                <li><strong>Trimodal distribution mechanism</strong>: The biological basis of the three κ chain similarity modes requires experimental validation</li>
-                <li><strong>Lambda chain modeling</strong>: λ chains proved more challenging than κ chains, likely due to their greater structural flexibility</li>
-                <li><strong>Germline bias</strong>: The model showed a tendency toward naive-like sequences, reflecting database composition</li>
-                <li><strong>Experimental validation needed</strong>: Functional testing is required to confirm that generated sequences produce active antibodies</li>
-            </ul>
-
-            <p>These challenges highlight opportunities for incorporating structural information, epitope-guided design, and experimental feedback into future iterations.</p>
+            <p>Key challenges remain: moderate sequence recovery (especially in CDR regions), the unexplained trimodal κ distribution, difficulty modeling λ chains, germline bias toward naive-like sequences, and the need for experimental validation of generated antibodies.</p>
         </section>
 
         <section class="references-section">
@@ -606,6 +566,11 @@
                 <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
                 <a href="#" class="link-button">Read the Paper</a>
             </div>
+
+            <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+                This work was conducted at the Institute of Biochemistry and Molecular Medicine (IBMM), University of Bern, 
+                and supported by the Helmut Horten Young Investigator Program 2022.
+            </p>
 
             <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
                 <em>Lea Brönnimann, Thomas Lemmin, and Chiara Rodella</em>
