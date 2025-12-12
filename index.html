@@ -567,14 +567,14 @@
     <!-- Panel 2: The Challenge -->
     <section class="panel" id="panel-1">
         <div class="panel-content">
-            <h2>The Challenge: Lost Pairing Information</h2>
+            <h2>The challenge: lost pairing information</h2>
             
             <p>Modern sequencing can capture millions of antibody sequences from a single blood sample<a href="#ref2" class="reference">[2]</a>, but there's a catch: these methods lose track of which heavy chains naturally pair with which light chains<a href="#ref3" class="reference">[3]</a>. It's like having millions of left and right shoes with no record of which pairs go together.</p>
 
             <p>This matters because random pairing often produces non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>—understanding natural pairing preferences is critical for therapeutic antibody design, bispecific engineering, and decoding immune responses.</p>
 
             <div class="highlight-box">
-                <h3>Why This Matters</h3>
+                <h3>Why this matters</h3>
                 <ul>
                     <li><strong>Therapeutic antibody design</strong>: Ensuring stability and reducing immunogenicity</li>
                     <li><strong>Bispecific antibody engineering</strong>: Achieving correct heavy-light assembly</li>
@@ -588,17 +588,17 @@
     <!-- Panel 3: Our Approach -->
     <section class="panel" id="panel-2">
         <div class="panel-content">
-            <h2>Our Approach: Two-Stage Deep Learning</h2>
+            <h2>Our approach: two-stage deep learning</h2>
             
             <p>We faced a data challenge: 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. Our solution? A two-stage approach:</p>
 
             <div class="method-section">
-                <h3>Stage 1: Pre-training</h3>
+                <h3>Stage 1: pre-training</h3>
                 <p>We built two specialized language models—<strong>HeavyBERTa</strong> (trained on 99M+ heavy chains) and <strong>LightGPT</strong> (trained on 22M+ light chains)—to learn the "grammar" of antibody sequences.</p>
             </div>
 
             <div class="method-section">
-                <h3>Stage 2: Fine-tuning</h3>
+                <h3>Stage 2: fine-tuning</h3>
                 <p>We combined these models into <strong>Heavy2Light</strong>, an encoder-decoder architecture that learned to translate heavy chains into plausible light chains using ~588,000 paired sequences.</p>
             </div>
 
@@ -630,10 +630,10 @@
     <!-- Panel 4: Key Findings -->
     <section class="panel" id="panel-3">
         <div class="panel-content">
-            <h2>Key Findings</h2>
+            <h2>Key findings</h2>
             
             <div class="scrollable-content">
-                <h3>1. Maturation-Dependent Pairing Constraints</h3>
+                <h3>1. Maturation-dependent pairing constraints</h3>
 
                 <div class="key-finding">
                     <p><strong>Memory B cells exhibit restricted V gene pairing preferences.</strong></p>
@@ -643,7 +643,7 @@
 
                 <p>This finding aligns with recent experimental observations that memory B cells show pronounced heavy-light interdependence<a href="#ref5" class="reference">[5]</a>.</p>
 
-                <h3>2. The Trimodal Kappa Distribution</h3>
+                <h3>2. The trimodal kappa distribution</h3>
 
                 <p>When we analyzed sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
 
@@ -651,7 +651,7 @@
                     <p><strong>Our hypothesis:</strong> These three modes represent different pairing strategies—from promiscuous public light chains (~30-40% similarity) that pair with many heavy chains, to semi-specialized pairings (~50-60%), to highly specific co-evolved pairs (~70-80%) selected during affinity maturation.</p>
                 </div>
 
-                <h3>3. Structural Conservation Despite Sequence Divergence</h3>
+                <h3>3. Structural conservation despite sequence divergence</h3>
 
                 <p>Generated light chains with as little as 31% sequence identity to their true counterparts still folded into correct 3D structures<a href="#ref8" class="reference">[8]</a>.</p>
 
@@ -674,7 +674,7 @@
                     </div>
                 </div>
 
-                <h3>4. Co-evolutionary Relationships</h3>
+                <h3>4. Co-evolutionary relationships</h3>
 
                 <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002).</p>
             </div>
@@ -684,12 +684,12 @@
     <!-- Panel 5: What This Means -->
     <section class="panel" id="panel-4">
         <div class="panel-content">
-            <h2>What This Means</h2>
+            <h2>What this means</h2>
 
             <p>Heavy2Light demonstrates that sequence-to-sequence modeling can uncover biologically meaningful pairing constraints without explicit supervision. The model learned maturation-dependent preferences, germline co-evolution patterns, structural constraints, and V gene restrictions—all from sequence data alone.</p>
 
             <div class="highlight-box">
-                <h3>Potential Applications</h3>
+                <h3>Potential applications</h3>
                 <ul>
                     <li><strong>Computational repertoire analysis</strong>: Inferring pairing relationships in large-scale unpaired datasets</li>
                     <li><strong>Therapeutic antibody optimization</strong>: Designing light chains matched to heavy chain properties</li>
@@ -749,9 +749,10 @@
 
             <h2>Resources</h2>
             <div class="links">
-                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">GitHub Repository</a>
-                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model Weights</a>
-                <a href="#" class="link-button">Read the Paper</a>
+                <a href="#" class="link-button">Read the paper</a>
+                <a href="https://github.com/ibmm-unibe-ch/Heavy2Light" class="link-button" target="_blank">Github repository</a>
+                <a href="https://huggingface.co/leaBroe" class="link-button" target="_blank">Model weights</a>
+                <a href="https://doi.org/10.5281/zenodo.17855785" class="link-button" target="_blank">Data</a>
             </div>
         </div>
     </section>
