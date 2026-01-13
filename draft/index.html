@@ -127,22 +127,22 @@
         /* Hero Panel */
         .hero-panel {
             text-align: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%) !important;
+            background: linear-gradient(135deg, #D3D3D3 0%, #c5ddd9 100%) !important;
             position: relative;
             overflow: hidden;
         }
 
         /* Hero panel text colors */
         .hero-panel h1 {
-            color: #ffffff;
+            color: rgba(77, 208, 192, 0.3);
         }
 
         .hero-panel .subtitle {
-            color: #e0e0e0;
+            color: #000000;
         }
 
         .hero-panel p {
-            color: #d0d0d0;
+            color: #000000;
         }
 
         .hero-panel .question-text {
@@ -218,6 +218,11 @@
             border-radius: 12px;
             overflow: hidden;
             animation: scaleIn 0.6s ease-out 0.6s backwards;
+        }
+
+        .fig-3 {
+            max-width: 550px;
+            margin: 0 auto;
         }
 
         @keyframes scaleIn {
@@ -549,14 +554,14 @@
             <p class="subtitle">How we trained transformers to better understand the hidden grammar of antibodies.</p>
             
             <div class="header-image-container">
-                <img src="Heavy2Light/logo_heavy2light.png" class="header-image" alt="Heavy2Light Logo">
+                <img src="/home/leabroe/Documents/PhD/Heavy2light/blogpost/Heavy2Light_blogpost/draft/logo_heavy2light.png" class="header-image" alt="Heavy2Light Logo">
             </div>
 
             <div class="question-text">
                 What if we could teach AI to understand antibody pairing preferences?
             </div>
 
-            <p>Your immune system generates billions of different antibodies, each consisting of two heavy chains and two light chains that must pair correctly to function. But despite decades of research, we still don't fully understand which heavy chains prefer to pair with which light chains.</p>
+            <p>Your immune system generates billions of different antibodies, each consisting of two heavy chains and two light chains that must pair correctly to function. But despite decades of research, it is still not fully understood which heavy chains prefer to pair with which light chains.</p>
 
             <p>To explore this mystery, we developed <strong>Heavy2Light</strong>, a deep learning framework that has learned to generate light chain sequences from a given heavy chain.</p>
 
@@ -569,9 +574,9 @@
         <div class="panel-content">
             <h2>The challenge: lost pairing information</h2>
             
-            <p>Modern sequencing can capture millions of antibody sequences from a single blood sample, but these methods lose track of which heavy chains naturally pair with which light chains<a href="#ref2" class="reference">[2]</a><a href="#ref3" class="reference">[3]</a>.</p>
+            <p>With modern sequencing we can get millions of antibody sequences from a single blood sample, but most of these methods lose track of which heavy chains naturally pair with which light chains<a href="#ref2" class="reference">[2]</a><a href="#ref3" class="reference">[3]</a>.</p>
 
-            <p>This matters because random pairing often produces non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>, understanding natural pairing preferences is therefore critical for therapeutic antibody design, bispecific engineering, and decoding immune responses.</p>
+            <p>This lost pairing information matters because random pairing often produces non-functional or self-reactive antibodies<a href="#ref4" class="reference">[4]</a>. Understanding natural pairing preferences is therefore important for therapeutic antibody design, bispecific engineering, and decoding immune responses.</p>
 
             <div class="highlight-box">
                 <h3>Why this matters</h3>
@@ -590,7 +595,7 @@
         <div class="panel-content">
             <h2>Our approach: two-stage deep learning</h2>
             
-            <p>We faced a data challenge: 99 million unpaired heavy chains and 22 million light chains, but only ~2 million paired sequences. Our solution? A two-stage approach:</p>
+            <p>As a result, there are many more unpaired antibody sequences than those for which the information about which light chain pairs with which heavy chain is still available. In numbers, that was about 99 million unpaired heavy chains and about 22 million light chains compared to about half a million paired chains (after some clustering to reduce redundancy). Our solution? A two-stage approach:</p>
 
             <div class="method-section">
                 <h3>Stage 1: pre-training</h3>
@@ -603,7 +608,7 @@
             </div>
 
             <div class="image-container">
-                <img src="Heavy2Light/fig_1.png" class="header-image" alt="Heavy2Light Logo">
+                <img src="/home/leabroe/Documents/PhD/Heavy2light/blogpost/Heavy2Light_blogpost/Heavy2Light/fig_1.png" class="header-image" alt="Heavy2Light Logo">
             </div>
 
             <div class="stat-grid">
@@ -630,7 +635,7 @@
     <!-- Panel 4: Key Findings -->
     <section class="panel" id="panel-3">
         <div class="panel-content">
-            <h2>Key findings</h2>
+            <h2>What did we find?</h2>
             
             <div class="scrollable-content">
                 <h3>1. Maturation-dependent pairing constraints</h3>
@@ -645,7 +650,12 @@
 
                 <h3>2. The trimodal kappa distribution</h3>
 
-                <p>When we analyzed sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
+                <p>When we had a look at the sequence similarity between generated and true κ light chains, we found something unexpected: three distinct peaks instead of a single broad distribution.</p>
+                
+                <div class="image-container">
+                <img src="/home/leabroe/Documents/PhD/Heavy2light/blogpost/Heavy2Light_blogpost/draft/distr.png" class="header-image fig-3" alt="Heavy2Light Logo">
+
+
 
                 <div class="highlight-box">
                     <p><strong>Our hypothesis:</strong> These three modes represent different pairing strategies—from promiscuous public light chains (~30-40% similarity) that pair with many heavy chains, to semi-specialized pairings (~50-60%), to highly specific co-evolved pairs (~70-80%) selected during affinity maturation.</p>
@@ -653,9 +663,9 @@
 
                 <h3>3. Structural conservation despite sequence divergence</h3>
 
-                <p>Generated light chains with as little as 31% sequence identity to their true counterparts still folded into correct 3D structures<a href="#ref8" class="reference">[8]</a>.</p>
+                <p>Generated light chains with as little as 31% sequence identity (31%) to their true counterparts still folded into correct 3D structures<a href="#ref8" class="reference">[8]</a>.</p>
 
-                <div class="stat-grid">
+                <!--<div class="stat-grid">
                     <div class="stat-card">
                         <span class="stat-number">93.9%</span>
                         <span class="stat-label">pTM Score</span>
@@ -672,11 +682,16 @@
                         <span class="stat-number">93.1%</span>
                         <span class="stat-label">Germline Similarity</span>
                     </div>
-                </div>
+                </div> -->
 
                 <h3>4. Co-evolutionary relationships</h3>
 
                 <p>Generated light chains showed correlated germline identities with their input heavy chains (Pearson R = 0.440), approaching native pairs (R = 0.593) and far exceeding random pairs (R = -0.002).</p>
+
+                <div class="image-container">
+                <img src="/home/leabroe/Documents/PhD/Heavy2light/blogpost/Heavy2Light_blogpost/draft/fig_3.png" class="header-image" alt="Correlation">
+
+            </div>
             </div>
         </div>
     </section>
